@@ -18,20 +18,24 @@ export default class RibbonMenu {
     return `
       <div class="ribbon">
         <button class="ribbon__arrow ribbon__arrow_left">
-          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+          <img src="./assets/images/icons/angle-icon.svg" alt="icon">
         </button>
     
         <nav class="ribbon__inner">
-          ${this.#categories.map(item => `
+          ${this.#categories
+            .map(
+              (item) => `
             <a href="#" class="ribbon__item" data-id="${item.id}">${item.name}</a>
-          `).join('')}
+          `
+            )
+            .join('')}
         </nav>
     
         <button class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
-          <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+          <img src="./assets/images/icons/angle-icon.svg" alt="icon">
         </button>
       </div>
-    `
+    `;
   }
 
   initRibbonMenu() {
@@ -61,7 +65,6 @@ export default class RibbonMenu {
     }
 
     btnLeft.addEventListener('click', () => {
-
       ribbonInner.scrollBy(-350, 0);
 
       ribbonInner.addEventListener('scroll', function () {
@@ -69,17 +72,15 @@ export default class RibbonMenu {
 
         if (scrollLeft !== 0) {
           btnRight.classList.add('ribbon__arrow_visible');
-        };
+        }
 
         if (scrollLeft < 1) {
           btnLeft.classList.remove('ribbon__arrow_visible');
-        };
-      })
-
-    })
+        }
+      });
+    });
 
     btnRight.addEventListener('click', () => {
-
       ribbonInner.scrollBy(350, 0);
 
       ribbonInner.addEventListener('scroll', function () {
@@ -87,13 +88,13 @@ export default class RibbonMenu {
 
         if (scrollRight !== 0) {
           btnLeft.classList.add('ribbon__arrow_visible');
-        };
+        }
 
         if (scrollRight < 1) {
           btnRight.classList.remove('ribbon__arrow_visible');
-        };
-      })
-    })
+        }
+      });
+    });
   }
 
   #selectItemMenu() {
@@ -103,16 +104,18 @@ export default class RibbonMenu {
     ribbonInner.addEventListener('click', (event) => {
       event.preventDefault();
 
-      ribbonItem.forEach(item => {
+      ribbonItem.forEach((item) => {
         item.classList.remove('ribbon__item_active');
-      })
+      });
 
       event.target.classList.add('ribbon__item_active');
 
-      this.#elem.dispatchEvent(new CustomEvent("ribbon-select", {
-        detail: event.target.dataset.id,
-        bubbles: true,
-      }))
+      this.#elem.dispatchEvent(
+        new CustomEvent('ribbon-select', {
+          detail: event.target.dataset.id,
+          bubbles: true,
+        })
+      );
     });
   }
 }
